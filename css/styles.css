@@ -1,0 +1,683 @@
+:root {
+    --color-primary: #33f3fa;
+    --color-secondary: #a8c6c1;
+    --color-accent: #a15495;
+    --color-light: #f8f9fa;
+    --color-dark: #2c3e50;
+    --color-text: #333;
+    --gradient-primary: linear-gradient(135deg, #5d7b93 0%, #a8c6c1 100%);
+    --gradient-light: linear-gradient(135deg, #d8d8d8 0%, #dceafa 100%);
+    --gradient-cards: linear-gradient(135deg, #bbebc5 0%, #ddfae2 100%);
+    --Color-icon: #25d3f1;
+    --color-brilliant: #b0e9fa;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    cursor: url('../images/geometria-cursor.png'), auto;
+}
+
+/* Cursor Trail Effect */
+.cursor-trail {
+    position: fixed;
+    z-index: 9999;
+    width: 32px;
+    /* Adjust size as needed, assumed standard cursor size */
+    height: auto;
+    pointer-events: none;
+    transition: left 0.15s ease-out, top 0.15s ease-out, opacity 0.2s ease, transform 0.2s ease;
+    /* The delay effect */
+    /* Ensure it's above everything */
+    opacity: 1;
+    transform: scale(1);
+}
+
+.cursor-trail.cursor-trail-hidden {
+    opacity: 0;
+    transform: scale(0);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+}
+
+/* Navbar */
+.navbar {
+    background-color: rgb(44, 62, 80);
+    box-shadow: 0 2px 10px rgba(62, 194, 235, 0.932);
+    padding: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--color-light);
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand:hover {
+    color: var(--color-primary);
+}
+
+.navbar-logo {
+    height: 50px;
+    margin-right: 10px;
+    width: auto;
+    animation: float 6.2s ease-in-out infinite;
+}
+
+.nav-link {
+    color: var(--color-light) !important;
+    font-weight: 600;
+    margin: 0 5px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--color-primary) !important;
+    animation: float 1.2s ease-in-out infinite;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    animation: fadeIn 1.5s ease-out;
+    max-width: 100%;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(55, 207, 245, 0.432);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 22px 22px 28px rgba(255, 255, 255, 0.99);
+    animation: slideUp 1s ease-out 0.5s both;
+    max-width: 90%;
+
+    /* Gradiente en movimiento para el texto */
+    background: linear-gradient(90deg, #ffffff, #d1f7da, #dd4408, #e9f2f3);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: hueShift 8s linear infinite, slideUp 1s ease-out 0.5s both;
+}
+
+/* Conservamos la animación de entrada existente, pero la gradiente debe desplazarse continuamente */
+@keyframes hueShift {
+    0% {
+        background-position: 0% 0;
+    }
+
+    100% {
+        background-position: 300% 0;
+    }
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    max-width: 700px;
+    text-shadow: 15px 15px 19px rgba(13, 10, 51, 0.99);
+    animation: slideUp 1s ease-out 0.8s both;
+    padding: 0 20px;
+}
+
+/* Tarjetas */
+.cards-section {
+    padding: 100px 0;
+    background: var(--gradient-light);
+    width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--color-dark);
+    position: relative;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 4px;
+    background: var(--gradient-primary);
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 800ms ease-in-out, box-shadow 800ms ease-in-out;
+    height: 100%;
+    box-shadow: 0 10px 20px rgba(197, 213, 243, 0.836);
+    margin-bottom: 0;
+    background: var(--gradient-cards);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    animation: shadowPulse 12s ease-in-out infinite, float 1.2s ease-in-out infinite;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    color: var(--Color-icon);
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.card-title {
+    color: var(--color-dark);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.card-body {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text {
+    flex-grow: 1;
+}
+
+/* Contacto */
+.contact-section {
+    padding: 100px 0;
+    background: var(--gradient-primary);
+    color: white;
+    width: 100%;
+    overflow: hidden;
+}
+
+.contact-title {
+    color: white;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.contact-form {
+    background: rgba(57, 77, 88, 0.959);
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #ccc;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #84f2fa;
+    /* color al enfocar */
+    outline: none;
+    /* opcional, quita el outline por defecto del navegador */
+}
+
+.btn-send {
+    background: var(--color-dark);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.btn-send:hover {
+    background: #47e7df;
+    transform: translateY(-2px);
+}
+
+.social-links {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.social-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: rgba(62, 207, 243, 0.952);
+    border-radius: 50%;
+    line-height: 50px;
+    color: white;
+    font-size: 1.3rem;
+    margin: 0 10px;
+    transition: all 0.3s;
+    text-decoration: none;
+    animation: float 2.5s ease-in-out infinite;
+}
+
+.social-icon:hover {
+    background: var(--color-dark);
+    transform: translateY(-5px);
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    /* altura de flotación (ajusta) */
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Footer */
+footer {
+    background: var(--color-dark);
+    color: white;
+    padding: 60px 0 30px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.footer-logo {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo-img {
+    height: 50px;
+    margin-right: 10px;
+    width: auto;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-links a {
+    color: rgba(104, 194, 247, 0.918);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--color-brilliant);
+}
+
+.copyright {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: rgba(255, 255, 255, 0.932);
+    width: 100%;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shadowPulse {
+    25% {
+        box-shadow: 0 10px 20px rgba(75, 245, 194, 0.836);
+    }
+
+    50% {
+        box-shadow: 0 18px 34px rgba(30, 197, 253, 0.95);
+    }
+
+    100% {
+        box-shadow: 0 12px 25px rgba(30, 197, 253, 0.72);
+    }
+
+    50% {
+        box-shadow: 0 18px 34px rgba(30, 197, 253, 0.95);
+    }
+
+    25% {
+        box-shadow: 0 10px 20px rgba(75, 245, 194, 0.836);
+    }
+
+    15% {
+        box-shadow: 0 8px 15px rgba(75, 245, 194, 0.7);
+    }
+
+    10% {
+        box-shadow: 0 5px 10px rgba(75, 245, 194, 0.5);
+    }
+
+    5% {
+        box-shadow: 0 3px 6px rgba(75, 245, 194, 0.3);
+    }
+
+    4% {
+        box-shadow: 0 2px 4px rgba(75, 245, 194, 0.2);
+    }
+
+    3% {
+        box-shadow: 0 1px 2px rgba(75, 245, 194, 0.1);
+    }
+
+    2% {
+        box-shadow: none;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+/* Responsive - Mejoras para dispositivos móviles */
+@media (max-width: 1200px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+
+    .navbar-logo {
+        height: 40px;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        max-width: 95%;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+
+    .hero {
+        min-height: 500px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        padding: 0 15px;
+    }
+
+    .cards-section,
+    .contact-section {
+        padding: 70px 0;
+    }
+
+    .card-img-top {
+        height: 180px;
+    }
+
+    .contact-form {
+        padding: 30px 20px;
+    }
+
+    .social-icon {
+        margin: 0 8px;
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+    }
+
+    footer {
+        padding: 40px 0 20px;
+    }
+
+    .footer-logo {
+        font-size: 1.3rem;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .footer-logo-img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .navbar-logo {
+        height: 35px;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 40px;
+    }
+
+    .cards-section,
+    .contact-section {
+        padding: 50px 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .contact-title {
+        font-size: 1.8rem;
+    }
+
+    .contact-form h3 {
+        font-size: 1.4rem;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 1.1rem;
+        margin: 0 5px;
+    }
+
+    .footer-links li {
+        font-size: 0.9rem;
+    }
+
+    .copyright p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .navbar-brand {
+        font-size: 0.2rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .navbar-logo {
+        height: 30px;
+    }
+
+    .btn-send {
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        margin: 0 3px;
+    }
+}
