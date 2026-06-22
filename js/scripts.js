@@ -226,6 +226,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     preventHorizontalScroll();
     window.addEventListener('resize', preventHorizontalScroll);
+
+    // Modal functionality
+    setupModal();
 });
 
 // Mejorar comportamiento responsive en redimensionamiento
@@ -265,3 +268,72 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// Modal setup
+function setupModal() {
+    const modalElement = document.getElementById('contentModal');
+    const modal = new bootstrap.Modal(modalElement);
+    const modalTitle = document.getElementById('contentModalLabel');
+    const modalBody = document.getElementById('modalContentBody');
+    const buttons = document.querySelectorAll('.btn-card-modal');
+    let lastFocusedButton = null;
+
+    buttons.forEach(button => {
+        button.addEventListener('click', async function () {
+            lastFocusedButton = this;
+            const fileName = this.getAttribute('data-file');
+            await loadMarkdownContent(fileName, modalTitle, modalBody);
+            modal.show();
+        });
+    });
+
+    // Manejar foco cuando el modal se cierra
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        if (lastFocusedButton) {
+            lastFocusedButton.focus();
+        }
+    });
+
+    // Enfocar el primer botón del modal cuando se abre
+    modalElement.addEventListener('shown.bs.modal', function () {
+        const firstFocusable = modalElement.querySelector('.btn-close, .btn-send');
+        if (firstFocusable) {
+            firstFocusable.focus();
+        }
+    });
+}
+
+// Load and parse markdown file
+async function loadMarkdownContent(fileName, titleElement, bodyElement) {
+    try {
+        // Usar contenido embebido primero, intentar fetch si no está disponible
+        let markdown;
+        if (typeof markdownContent !== 'undefined' && markdownContent[fileName]) {
+            markdown = markdownContent[fileName];
+        } else {
+            const response = await fetch(`content/${fileName}`);
+            if (!response.ok) {
+                throw new Error('Error al cargar el contenido');
+            }
+            markdown = await response.text();
+        }
+        
+        // Parse markdown to HTML
+        const html = marked.parse(markdown);
+        bodyElement.innerHTML = html;
+
+        // Extract title from first heading
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
+        const firstHeading = tempDiv.querySelector('h1, h2, h3');
+        if (firstHeading) {
+            titleElement.textContent = firstHeading.textContent;
+        } else {
+            titleElement.textContent = 'Contenido';
+        }
+    } catch (error) {
+        console.error('Error loading markdown:', error);
+        bodyElement.innerHTML = '<p class="text-danger">Error al cargar el contenido. Por favor, intenta nuevamente.</p>';
+        titleElement.textContent = 'Error';
+    }
+}
